@@ -1,4 +1,23 @@
 package stackpulse.scraper.models;
 
-public class AdzunaJobResult {
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class AdzunaJobResult
+{
+    @JsonProperty("id")
+    private String id;
+    @JsonProperty("title")
+    private String title;
+    @JsonProperty("description")
+    private String description;
+    @JsonProperty("company")
+    private AdzunaCompany company;
+    @JsonProperty("created")
+    private String created;
 }
