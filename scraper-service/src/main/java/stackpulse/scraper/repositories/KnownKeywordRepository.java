@@ -1,4 +1,9 @@
 package stackpulse.scraper.repositories;
 
-public class KnownKeywordRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import stackpulse.scraper.entities.KnownKeyword;
+
+public interface KnownKeywordRepository extends JpaRepository<KnownKeyword, Long>
+{
+
 }

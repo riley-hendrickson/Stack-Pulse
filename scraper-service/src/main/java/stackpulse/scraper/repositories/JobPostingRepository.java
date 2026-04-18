@@ -1,4 +1,9 @@
 package stackpulse.scraper.repositories;
 
-public class JobPostingRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import stackpulse.scraper.entities.JobPosting;
+
+public interface JobPostingRepository extends JpaRepository<JobPosting, Long>
+{
+    boolean existsByAdzunaId(String adzunaId);
 }

@@ -1,4 +1,9 @@
 package stackpulse.scraper.repositories;
 
-public class JobPostingKeywordRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import stackpulse.scraper.entities.JobPostingKeyword;
+
+public interface JobPostingKeywordRepository extends JpaRepository<JobPostingKeyword, Long>
+{
+
 }
