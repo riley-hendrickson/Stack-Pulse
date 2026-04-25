@@ -2,11 +2,12 @@ package stackpulse.scraper.services;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jsoup.Jsoup;
 import org.springframework.stereotype.Service;
-import stackpulse.scraper.client.AdzunaClient;
+import stackpulse.scraper.client.MuseClient;
 import stackpulse.scraper.entities.JobPosting;
-import stackpulse.scraper.models.AdzunaJobResult;
-import stackpulse.scraper.models.AdzunaResponse;
+import stackpulse.scraper.models.MuseJobResult;
+import stackpulse.scraper.models.MuseResponse;
 import stackpulse.scraper.repositories.JobPostingRepository;
 
 import java.io.IOException;
@@ -14,13 +15,13 @@ import java.io.IOException;
 @Service
 public class ScraperService
 {
-    private final AdzunaClient adzunaClient;
+    private final MuseClient museClient;
     private final JobPostingRepository jobPostingRepository;
     private final ObjectMapper objectMapper;
 
-    public ScraperService(AdzunaClient adzunaClient, JobPostingRepository jobPostingRepository, ObjectMapper objectMapper)
+    public ScraperService(MuseClient museClient, JobPostingRepository jobPostingRepository, ObjectMapper objectMapper)
     {
-        this.adzunaClient = adzunaClient;
+        this.museClient = museClient;
         this.jobPostingRepository = jobPostingRepository;
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         this.objectMapper = objectMapper;
@@ -30,18 +31,17 @@ public class ScraperService
     {
         try
         {
-            String jobs = adzunaClient.fetchJobs("Backend Developer", 1);
-            AdzunaResponse response = objectMapper.readValue(jobs, AdzunaResponse.class);
-            for(AdzunaJobResult jobResult : response.getJobResults())
+            String jobs = museClient.fetchJobs( 1);
+            MuseResponse response = objectMapper.readValue(jobs, MuseResponse.class);
+            for(MuseJobResult jobResult : response.getResults())
             {
-                if(jobPostingRepository.existsByAdzunaId(jobResult.getId())) continue;
-
+                if(jobPostingRepository.existsByExternalId(String.valueOf(jobResult.getId()))) continue;
                 JobPosting newPosting = JobPosting.builder()
-                        .adzunaId(jobResult.getId())
-                        .title(jobResult.getTitle())
-                        .description(jobResult.getDescription())
+                        .externalId(String.valueOf(jobResult.getId()))
+                        .title(jobResult.getName())
+                        .description(Jsoup.parse(jobResult.getContents()).text())
                         .company(jobResult.getCompany().getCompanyName())
-                        .source("adzuna")
+                        .source("Muse")
                         .build();
 
 

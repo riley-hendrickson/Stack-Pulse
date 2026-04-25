@@ -6,16 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AdzunaResponse
+public class MuseCompany
 {
-    @JsonProperty("results")
-    private List<AdzunaJobResult> jobResults;
-    @JsonProperty("count")
-    private int count;
+    @JsonProperty("name")
+    private String companyName;
 }

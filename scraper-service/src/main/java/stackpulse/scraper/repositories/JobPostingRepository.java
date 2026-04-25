@@ -5,5 +5,5 @@ import stackpulse.scraper.entities.JobPosting;
 
 public interface JobPostingRepository extends JpaRepository<JobPosting, Long>
 {
-    boolean existsByAdzunaId(String adzunaId);
+    boolean existsByExternalId(String adzunaId);
 }

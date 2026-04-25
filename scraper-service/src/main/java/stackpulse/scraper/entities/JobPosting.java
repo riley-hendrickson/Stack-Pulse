@@ -21,7 +21,7 @@ public class JobPosting
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false, unique = true)
-    private String adzunaId;
+    private String externalId;
     private String title;
     private String company;
     private String description;

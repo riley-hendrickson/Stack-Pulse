@@ -10,8 +10,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AdzunaCompany
+public class MuseJobResult
 {
-    @JsonProperty("display_name")
-    private String companyName;
+    @JsonProperty("id")
+    private int id;
+    @JsonProperty("name")
+    private String name;
+    @JsonProperty("contents")
+    private String contents;
+    @JsonProperty("publication_date")
+    private String publicationDate;
+    @JsonProperty("company")
+    private MuseCompany company;
 }

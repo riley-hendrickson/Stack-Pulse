@@ -68,6 +68,12 @@
             <version>1.18.38</version>
             <scope>provided</scope>
         </dependency>
+        <!--    framework to parse html page containing full job posting description    -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.17.2</version>
+        </dependency>
     </dependencies>
 
     <build>
