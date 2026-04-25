@@ -31,21 +31,24 @@ public class ScraperService
     {
         try
         {
-            String jobs = museClient.fetchJobs( 1);
-            MuseResponse response = objectMapper.readValue(jobs, MuseResponse.class);
-            for(MuseJobResult jobResult : response.getResults())
+            for(int i = 0; i < 5; i++)
             {
-                if(jobPostingRepository.existsByExternalId(String.valueOf(jobResult.getId()))) continue;
-                JobPosting newPosting = JobPosting.builder()
-                        .externalId(String.valueOf(jobResult.getId()))
-                        .title(jobResult.getName())
-                        .description(Jsoup.parse(jobResult.getContents()).text())
-                        .company(jobResult.getCompany().getCompanyName())
-                        .source("Muse")
-                        .build();
+                String jobs = museClient.fetchJobs( i);
+                MuseResponse response = objectMapper.readValue(jobs, MuseResponse.class);
+                for(MuseJobResult jobResult : response.getResults())
+                {
+                    if(jobPostingRepository.existsByExternalId(String.valueOf(jobResult.getId()))) continue;
+                    JobPosting newPosting = JobPosting.builder()
+                            .externalId(String.valueOf(jobResult.getId()))
+                            .title(jobResult.getName())
+                            .description(Jsoup.parse(jobResult.getContents()).text())
+                            .company(jobResult.getCompany().getCompanyName())
+                            .source("Muse")
+                            .build();
 
 
-                jobPostingRepository.save(newPosting);
+                    jobPostingRepository.save(newPosting);
+            }
             }
         } catch (IOException e)
         {
