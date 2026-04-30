@@ -3,6 +3,7 @@ package stackpulse.scraper.services;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jsoup.Jsoup;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import stackpulse.scraper.client.MuseClient;
 import stackpulse.scraper.entities.JobPosting;
@@ -35,6 +36,7 @@ public class ScraperService
         this.jobPostingKeywordRepository = jobPostingKeywordRepository;
     }
 
+    @Scheduled(cron = "0 0 6 * * *")
     public void scrape()
     {
         try
