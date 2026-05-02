@@ -30,7 +30,8 @@ public interface JobPostingKeywordRepository extends JpaRepository<JobPostingKey
             "FROM JobPostingKeyword jpk " +
             "WHERE jpk.scrapedAt >= :priorStart " +
             "GROUP BY jpk.keyword " +
-            "ORDER BY (recent - prior) DESC")
+            "ORDER BY (SUM(CASE WHEN jpk.scrapedAt >= :periodStart THEN 1 ELSE 0 END) - " +
+            "SUM(CASE WHEN jpk.scrapedAt < :periodStart AND jpk.scrapedAt >= :priorStart THEN 1 ELSE 0 END)) DESC")
     List<Object[]> findTrendingKeywords(@Param("periodStart") LocalDateTime periodStart,
                                         @Param("priorStart") LocalDateTime priorStart,
                                         Pageable pageable);
