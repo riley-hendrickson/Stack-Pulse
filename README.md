@@ -26,7 +26,7 @@ Eureka.
 |-----------------------|-------------------------------------------------------------------------------------------------------------------------------------|
 | **Scraper Service**   | Fetches job postings from The Muse API on a daily schedule, extracts keywords from descriptions, and persists results to PostgreSQL |
 | **Query API Service** | Reads keyword frequency data from PostgreSQL and serves it via REST endpoints                                                       |
-| **API Gateway**       | Single entry point — routes all client requests to the Query API via Eureka service discovery                                       |
+| **API Gateway**       | Single entry point — routes all client requests to the Query API and Scraper Service via Eureka service discovery                   |
 | **Eureka Server**     | Service registry — all services register on startup; the gateway resolves addresses dynamically                                     |
 
 ### Tech Stack
@@ -45,7 +45,7 @@ Eureka.
 
 All three client services register with Eureka on startup and are visible in the dashboard at `http://localhost:8761`.
 
-![Eureka Dashboard](docs/eureka-dashboard.jpg)
+![Eureka Dashboard](docs/eureka-dashboard.png)
 
 ---
 
@@ -150,6 +150,25 @@ GET http://localhost:8080/keywords/trending?days=30&limit=5
 
 ---
 
+### POST `/scraper/run`
+
+Triggers an immediate scrape of The Muse API and persists any new job postings and keywords to the database. Useful for
+populating the database on first startup without waiting for the scheduled 6:00 AM UTC run.
+
+**Example request:**
+
+```
+POST http://localhost:8080/scraper/run
+```
+
+**Example response:**
+
+```
+Scrape completed successfully.
+```
+
+---
+
 ## Running Locally
 
 ### Prerequisites
@@ -188,15 +207,23 @@ docker compose up
 The full system takes about 15–20 seconds to come up. You can verify all services are registered by opening the Eureka
 dashboard at `http://localhost:8761`.
 
-**4. Query the API**
+**4. Populate the database**
+
+The scraper runs on a daily schedule at 6:00 AM UTC. To populate the database immediately, wait until all services are
+registered in the Eureka dashboard, then trigger a manual scrape:
+
+```bash
+curl -X POST http://localhost:8080/scraper/run
+```
+
+> **Note:** Allow 30–60 seconds after startup before triggering — the gateway needs time to sync its Eureka cache before
+> it can route to the scraper service.
+
+**5. Query the API**
 
 ```bash
 curl http://localhost:8080/keywords/top?limit=10
 ```
-
-> **Note:** The scraper runs on a daily schedule at 6:00 AM UTC. On first startup the database will be empty until the
-> scraper fires. You can trigger a scrape immediately by restarting the scraper container, or wait for the scheduled
-> run.
 
 ### Stopping
 

@@ -21,6 +21,7 @@ services:
     build: ./scraper-service
     container_name: stackpulse-scraper
     environment:
+      SERVER_PORT: 8082
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/stackpulse
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: password
