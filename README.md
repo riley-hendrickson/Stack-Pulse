@@ -45,7 +45,7 @@ Eureka.
 
 All three client services register with Eureka on startup and are visible in the dashboard at `http://localhost:8761`.
 
-![Eureka Dashboard](docs/eureka-dashboard.png)
+![Eureka Dashboard](docs/eureka-dashboard.jpg)
 
 ---
 
