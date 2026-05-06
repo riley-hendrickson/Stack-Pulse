@@ -250,7 +250,9 @@ job_posting_keywords    — junction: which keywords appeared in which posting
 ```
 
 Schema ownership belongs to the Scraper Service. The Query API has Flyway disabled and reads from the same database
-without modifying the schema.
+without modifying the schema. Note that users can change the query to the job posting api to return whatever jobs they
+are interested in by modifying the category parameter in MuseClient's fetchJobs method, and entering their own values
+in V2__seed_known_keywords.sql
 
 ---
 
