@@ -63,7 +63,7 @@ All three client services register with Eureka on startup.
 
 ## API Reference
 
-All requests go through the API Gateway on port `8080`.
+All requests go through the API Gateway via `https://stack-pulse.up.railway.app`.
 
 ### GET `/keywords/top`
 
