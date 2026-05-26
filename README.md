@@ -56,7 +56,7 @@ All requests go through the API Gateway on port `8080`.
 
 ### GET `/keywords/top`
 
-Returns the most frequently appearing keywords across all scraped job postings.
+Returns the most frequently appearing keywords across all scraped job postings (the value for each keyword is the amount of job postings that keyword appears in).
 
 **Query parameters:**
 
