@@ -38,12 +38,13 @@ Eureka.
 - **PostgreSQL 16** — persistent storage
 - **OkHttp** / **jsoup** — HTTP client and HTML parsing for scraping
 - **Docker Compose** — orchestrates the full system in a single command
+- **Railway** — Project is hosted on Railway
 
 ---
 
 ## Eureka Dashboard
 
-All three client services register with Eureka on startup and are visible in the dashboard at `http://localhost:8761`.
+All three client services register with Eureka on startup.
 
 ![Eureka Dashboard](docs/eureka-dashboard.jpg)
 
@@ -67,7 +68,7 @@ Returns the most frequently appearing keywords across all scraped job postings.
 **Example request:**
 
 ```
-GET http://localhost:8080/keywords/top?limit=5
+GET https://stack-pulse.up.railway.app/keywords/top?limit=5
 ```
 
 **Example response:**
@@ -113,7 +114,7 @@ Returns keywords that have grown the most in frequency over a recent period comp
 **Example request:**
 
 ```
-GET http://localhost:8080/keywords/trending?days=30&limit=5
+GET https://stack-pulse.up.railway.app/keywords/trending?days=30&limit=5
 ```
 
 **Example response:**
@@ -153,12 +154,12 @@ GET http://localhost:8080/keywords/trending?days=30&limit=5
 ### POST `/scraper/run`
 
 Triggers an immediate scrape of The Muse API and persists any new job postings and keywords to the database. Useful for
-populating the database on first startup without waiting for the scheduled 6:00 AM UTC run.
+populating the database without waiting for the scheduled 6:00 AM UTC run.
 
 **Example request:**
 
 ```
-POST http://localhost:8080/scraper/run
+POST https://stack-pulse.up.railway.app/scraper/run
 ```
 
 **Example response:**
