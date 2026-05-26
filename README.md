@@ -6,6 +6,17 @@ engineering with Spring Boot and Spring Cloud.
 
 ---
 
+## Live Demo
+
+> Data is scraped daily at 6:00 AM UTC from [themuse.com](https://www.themuse.com/developers/api/v2).
+
+
+**Top Keywords across all scraped postings:**
+> [https://stack-pulse.up.railway.app/keywords/top](https://stack-pulse.up.railway.app/keywords/top)
+
+**Trending Keywords over the past 30 days:**
+> [https://stack-pulse.up.railway.app/keywords/trending](https://stack-pulse.up.railway.app/keywords/trending)
+
 ## Architecture
 
 StackPulse is composed of four services running as Docker containers and coordinated through Spring Cloud Netflix
@@ -56,7 +67,8 @@ All requests go through the API Gateway on port `8080`.
 
 ### GET `/keywords/top`
 
-Returns the most frequently appearing keywords across all scraped job postings (the value for each keyword is the amount of job postings that keyword appears in).
+Returns the most frequently appearing keywords across all scraped job postings (the value for each keyword is the amount
+of job postings that keyword appears in).
 
 **Query parameters:**
 
@@ -151,21 +163,6 @@ GET https://stack-pulse.up.railway.app/keywords/trending?days=30&limit=5
 
 ---
 
-### POST `/scraper/run`
-
-Triggers an immediate scrape of The Muse API and persists any new job postings and keywords to the database. Useful for
-populating the database without waiting for the scheduled 6:00 AM UTC run.
-
-**Example request:**
-
-```
-POST https://stack-pulse.up.railway.app/scraper/run
-```
-
-**Example response:**
-
-```
-Scrape completed successfully.
 ```
 
 ---
