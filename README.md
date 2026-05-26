@@ -163,8 +163,6 @@ GET https://stack-pulse.up.railway.app/keywords/trending?days=30&limit=5
 
 ---
 
-```
-
 ---
 
 ## Running Locally
