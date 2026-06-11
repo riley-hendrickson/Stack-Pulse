@@ -1,4 +1,5 @@
 services:
+
   postgres:
     image: postgres:16
     container_name: stackpulse-db
@@ -10,6 +11,12 @@ services:
       - "5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7.2.6-alpine
+    container_name: stackpulse-redis
+    ports:
+      - "6379:6379"
 
   eureka-server:
     build: ./eureka-server
@@ -39,11 +46,14 @@ services:
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: password
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     ports:
       - "8081:8081"
     depends_on:
       - postgres
       - eureka-server
+      - redis
 
   api-gateway:
     build: ./api-gateway
