@@ -3,6 +3,7 @@ package stackpulse.queryAPI.config;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,12 @@ public class OpenAPIConfig
 {
     @Value("${app.server-url:http://localhost:8080}")
     private String serverUrl;
+
+    @PostConstruct
+    public void logServerUrl() {
+        System.out.println(">>> Swagger server URL: " + serverUrl);
+    }
+
     @Bean
     public OpenAPI stackPulseOpenAPI()
     {
