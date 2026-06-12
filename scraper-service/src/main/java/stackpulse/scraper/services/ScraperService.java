@@ -41,13 +41,23 @@ public class ScraperService
     {
         try
         {
-            for(int i = 1; i <= 5; i++)
+            int currentPage = 1, newPostingsFound = 0;
+            while(newPostingsFound < 50)
             {
-                String jobs = museClient.fetchJobs(i);
+                String jobs = museClient.fetchJobs(currentPage++);
                 MuseResponse response = objectMapper.readValue(jobs, MuseResponse.class);
+
+                // if the API returns an empty page, there are no more results
+                if(response.getResults().isEmpty())
+                {
+                    System.out.println(">>> No more results");
+                    break;
+                }
+
                 for(MuseJobResult jobResult : response.getResults())
                 {
                     if(jobPostingRepository.existsByExternalId(String.valueOf(jobResult.getId()))) continue;
+
                     JobPosting newPosting = JobPosting.builder()
                             .externalId(String.valueOf(jobResult.getId()))
                             .title(jobResult.getName())
@@ -56,8 +66,9 @@ public class ScraperService
                             .source("Muse")
                             .build();
 
-
                     jobPostingRepository.save(newPosting);
+                    newPostingsFound++;
+
                     List<String> matches = keywordMatchingService.findMatches(newPosting.getDescription());
                     for(String match : matches)
                     {
@@ -66,6 +77,12 @@ public class ScraperService
                                 .keyword(match)
                                 .build();
                         jobPostingKeywordRepository.save(newKeyword);
+                    }
+
+                    if(newPostingsFound >= 50)
+                    {
+                        System.out.println(">>> Maximum number of new postings reached");
+                        break;
                     }
                 }
             }
