@@ -15,12 +15,6 @@ public class OpenAPIConfig
 {
     @Value("${app.server-url:http://localhost:8080}")
     private String serverUrl;
-
-    @PostConstruct
-    public void logServerUrl() {
-        System.out.println(">>> Swagger server URL: " + serverUrl);
-    }
-
     @Bean
     public OpenAPI stackPulseOpenAPI()
     {
@@ -29,6 +23,6 @@ public class OpenAPIConfig
                 .title("StackPulse Query API")
                 .description("REST API for querying technology keyword trends from job postings")
                 .version("1.0.0"))
-                .servers(List.of(new Server().url("http://localhost:8080")));
+                .servers(List.of(new Server().url(serverUrl)));
     }
 }
