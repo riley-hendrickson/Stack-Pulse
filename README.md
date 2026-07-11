@@ -17,7 +17,7 @@ engineering with Spring Boot and Spring Cloud.
 > [https://stack-pulse.up.railway.app/keywords/trending](https://stack-pulse.up.railway.app/keywords/trending)
 
 **Swagger UI (API docs):**
-> [https://stack-pulse.up.railway.app/swagger-ui.html](https://stack-pulse.up.railway.app/swagger-ui.html)
+> [https://stack-pulse.up.railway.app/swagger-ui/index.html](https://stack-pulse.up.railway.app/swagger-ui/index.html)
 
 ---
 
